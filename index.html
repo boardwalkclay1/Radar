@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blip Radar – Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101726, #050711 60%);
+      color: #f4f6ff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(5, 8, 20, 0.9);
+      border-bottom: 1px solid rgba(92, 132, 255, 0.4);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header h1 {
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    header nav a {
+      color: #b8c4ff;
+      margin-left: 16px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    header nav a:hover {
+      color: #ffffff;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .shell {
+      max-width: 420px;
+      width: 100%;
+      background: rgba(8, 12, 32, 0.95);
+      border-radius: 18px;
+      border: 1px solid rgba(92, 132, 255, 0.6);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      padding: 24px 22px 20px;
+    }
+    .shell h2 {
+      margin: 0 0 4px;
+      font-size: 22px;
+    }
+    .shell p {
+      margin: 4px 0 20px;
+      font-size: 13px;
+      color: #b4c0ff;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #d0d7ff;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(124, 152, 255, 0.6);
+      background: rgba(9, 10, 26, 0.9);
+      color: #f7f7ff;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #9bb2ff;
+      box-shadow: 0 0 0 1px rgba(155, 178, 255, 0.65);
+    }
+    .field {
+      margin-bottom: 14px;
+    }
+    button.primary {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #4c6bff, #8d8bff);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    button.primary:hover {
+      filter: brightness(1.08);
+    }
+    .switcher {
+      margin-top: 12px;
+      font-size: 12px;
+      text-align: center;
+      color: #9aa6ff;
+    }
+    .switcher button {
+      border: none;
+      background: none;
+      color: #d8dfff;
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: underline;
+      padding: 0 2px;
+    }
+    .links-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .links-row a {
+      color: #9fb4ff;
+      text-decoration: none;
+    }
+    .links-row a:hover {
+      color: #ffffff;
+    }
+    footer {
+      font-size: 11px;
+      color: #7079aa;
+      text-align: center;
+      padding: 10px 12px 14px;
+      border-top: 1px solid rgba(38, 55, 120, 0.7);
+      background: rgba(5, 8, 20, 0.95);
+    }
+    /* HTML Reader block shared styling */
+    .html-reader {
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(92, 132, 255, 0.35);
+    }
+    .html-reader h3 {
+      font-size: 14px;
+      margin: 0 0 6px;
+      color: #d7deff;
+    }
+    .html-reader input[type="file"] {
+      font-size: 11px;
+      color: #c4c8ff;
+    }
+    .html-reader iframe {
+      width: 100%;
+      height: 220px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(107, 139, 255, 0.6);
+      background: #050712;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BLIP RADAR</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="radar.html">Radar</a>
+      <a href="chat.html">Chat</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="shell">
+      <h2>Log in to the field</h2>
+      <p>Claim your blip, pick your color, and step onto the radar.</p>
+
+      <div id="login-view">
+        <div class="field">
+          <label for="login-username">Username</label>
+          <input id="login-username" type="text" placeholder="your-handle" />
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" placeholder="••••••••" />
+        </div>
+        <button class="primary" onclick="fakeLogin()">Enter radar (local)</button>
+      </div>
+
+      <div id="signup-view" style="display:none;">
+        <div class="field">
+          <label for="signup-username">Username</label>
+          <input id="signup-username" type="text" placeholder="your-handle" />
+        </div>
+        <div class="field">
+          <label for="signup-password">Password</label>
+          <input id="signup-password" type="password" placeholder="••••••••" />
+        </div>
+        <button class="primary" onclick="fakeSignup()">Create local profile</button>
+      </div>
+
+      <div class="switcher">
+        <span id="switch-text">New here?</span>
+        <button onclick="toggleAuth()">Create an account</button>
+      </div>
+
+      <div class="links-row">
+        <a href="radar.html">Skip to radar (demo)</a>
+        <a href="chat.html">Open chat</a>
+      </div>
+
+      <!-- HTML Reader Component -->
+      <div class="html-reader">
+        <h3>HTML Reader</h3>
+        <input type="file" id="htmlFile-index" accept=".html,.htm" />
+        <iframe id="htmlPreview-index"></iframe>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Local-first. SQLite-ready. Tunnel-ready. This is just the shell — backend wiring comes next.
+  </footer>
+
+  <script>
+    function toggleAuth() {
+      const login = document.getElementById("login-view");
+      const signup = document.getElementById("signup-view");
+      const switchText = document.getElementById("switch-text");
+      const btn = document.querySelector(".switcher button");
+
+      if (login.style.display === "none") {
+        login.style.display = "";
+        signup.style.display = "none";
+        switchText.textContent = "New here?";
+        btn.textContent = "Create an account";
+      } else {
+        login.style.display = "none";
+        signup.style.display = "";
+        switchText.textContent = "Already have an account?";
+        btn.textContent = "Log in instead";
+      }
+    }
+
+    function fakeLogin() {
+      const u = document.getElementById("login-username").value.trim();
+      if (!u) {
+        alert("For now this is local-only: enter any username to simulate login.");
+        return;
+      }
+      // Later: real auth via backend
+      window.location.href = "radar.html";
+    }
+
+    function fakeSignup() {
+      const u = document.getElementById("signup-username").value.trim();
+      if (!u) {
+        alert("Pick a username to simulate signup. Backend wiring comes next.");
+        return;
+      }
+      window.location.href = "profile.html";
+    }
+
+    // HTML Reader wiring (index)
+    document.getElementById("htmlFile-index").addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("htmlPreview-index").srcdoc = e.target.result;
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
