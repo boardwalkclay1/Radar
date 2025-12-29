@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blip Radar – Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0d182e, #03040c 60%);
+      color: #f4f6ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(5, 8, 20, 0.9);
+      border-bottom: 1px solid rgba(92, 132, 255, 0.4);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header h1 {
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    header nav a {
+      color: #b8c4ff;
+      margin-left: 16px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    header nav a:hover {
+      color: #ffffff;
+    }
+    main {
+      flex: 1;
+      padding: 18px 16px 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 2.1fr);
+      gap: 14px;
+    }
+    @media (max-width: 800px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .panel {
+      background: rgba(8, 12, 32, 0.95);
+      border-radius: 16px;
+      border: 1px solid rgba(92, 132, 255, 0.55);
+      padding: 14px 13px 10px;
+    }
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #d8e1ff;
+    }
+    .rooms {
+      max-height: 320px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+    .room-item {
+      padding: 7px 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(77, 115, 255, 0.45);
+      margin-bottom: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      background: rgba(7, 11, 34, 0.95);
+    }
+    .room-item.active {
+      border-color: rgba(153, 196, 255, 0.95);
+      background: rgba(16, 27, 70, 0.98);
+    }
+    .room-meta {
+      font-size: 11px;
+      color: #9aa6ff;
+      margin-top: 2px;
+    }
+    .messages {
+      height: 260px;
+      border-radius: 12px;
+      border: 1px solid rgba(110, 144, 255, 0.75);
+      background: rgba(7, 11, 33, 0.96);
+      padding: 8px 6px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+    .msg {
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .msg .meta {
+      font-size: 11px;
+      color: #96a3ff;
+    }
+    .msg .body {
+      margin-top: 2px;
+    }
+    .msg.you .body {
+      color: #e5f3ff;
+    }
+    .emoji-row {
+      display: flex;
+      gap: 6px;
+      margin: 8px 0 4px;
+      flex-wrap: wrap;
+    }
+    .emoji-btn {
+      font-size: 14px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(140, 176, 255, 0.9);
+      background: rgba(10, 17, 45, 0.96);
+      cursor: pointer;
+    }
+    .emoji-btn span {
+      margin-right: 4px;
+    }
+    .composer {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .composer input[type="text"] {
+      flex: 1;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(124, 152, 255, 0.6);
+      background: rgba(9, 10, 26, 0.9);
+      color: #f7f7ff;
+      font-size: 14px;
+      outline: none;
+    }
+    .composer button {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #4c6bff, #8d8bff);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .composer button:hover {
+      filter: brightness(1.08);
+    }
+    .html-reader {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(92, 132, 255, 0.35);
+    }
+    .html-reader h3 {
+      font-size: 13px;
+      margin: 0 0 4px;
+      color: #d7deff;
+    }
+    .html-reader input[type="file"] {
+      font-size: 11px;
+      color: #c4c8ff;
+    }
+    .html-reader iframe {
+      width: 100%;
+      height: 140px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(107, 139, 255, 0.6);
+      background: #050712;
+      box-sizing: border-box;
+    }
+    footer {
+      font-size: 11px;
+      color: #7079aa;
+      text-align: center;
+      padding: 10px 12px 14px;
+      border-top: 1px solid rgba(38, 55, 120, 0.7);
+      background: rgba(5, 8, 20, 0.95);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BLIP RADAR</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="radar.html">Radar</a>
+      <a href="chat.html">Chat</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h3>Rooms</h3>
+      <div class="rooms" id="rooms-list"></div>
+      <div class="html-reader">
+        <h3>HTML Reader</h3>
+        <input type="file" id="htmlFile-chat" accept=".html,.htm" />
+        <iframe id="htmlPreview-chat"></iframe>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3 id="room-title">Public plaza</h3>
+      <div class="messages" id="messages"></div>
+      <div class="emoji-row">
+        <button class="emoji-btn" onclick="sendEmoji('hi')"><span>👋</span>Hi</button>
+        <button class="emoji-btn" onclick="sendEmoji('hug')"><span>🤗</span>Hug</button>
+        <button class="emoji-btn" onclick="sendEmoji('kiss')"><span>💋</span>Kiss</button>
+        <button class="emoji-btn" onclick="sendEmoji('bye')"><span>👋🏽</span>Bye</button>
+        <button class="emoji-btn" onclick="sendEmoji('flirt')"><span>😉</span>Flirt</button>
+      </div>
+      <div class="composer">
+        <input id="message-input" type="text" placeholder="Say something to the room…" />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Local-only chat simulation. Next: WebSockets + SQLite + real rooms.
+  </footer>
+
+  <script>
+    const rooms = [
+      { id: 1, name: "Public plaza", people: 12 },
+      { id: 2, name: "Quiet corner", people: 3 },
+      { id: 3, name: "Skate lane", people: 7 }
+    ];
+    let activeRoom = 1;
+    const messagesEl = document.getElementById("messages");
+
+    function renderRooms() {
+      const list = document.getElementById("rooms-list");
+      list.innerHTML = "";
+      rooms.forEach(r => {
+        const div = document.createElement("div");
+        div.className = "room-item" + (r.id === activeRoom ? " active" : "");
+        div.innerHTML = `
+          <div><strong>${r.name}</strong></div>
+          <div class="room-meta">${r.people} online</div>
+        `;
+        div.onclick = () => switchRoom(r.id);
+        list.appendChild(div);
+      });
+    }
+
+    function switchRoom(id) {
+      activeRoom = id;
+      document.getElementById("room-title").textContent = rooms.find(r => r.id === id).name;
+      messagesEl.innerHTML = "";
+      logSystem(`Joined ${rooms.find(r => r.id === id).name}`);
+      renderRooms();
+    }
+
+    function logSystem(text) {
+      const div = document.createElement("div");
+      div.className = "msg";
+      div.innerHTML = `<div class="meta">system</div><div class="body">${text}</div>`;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function appendMessage(from, text, isYou = false) {
+      const div = document.createElement("div");
+      div.className = "msg" + (isYou ? " you" : "");
+      const timestamp = new Date().toLocaleTimeString();
+      div.innerHTML = `
+        <div class="meta">${from} • ${timestamp}</div>
+        <div class="body">${text}</div>
+      `;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("message-input");
+      const text = input.value.trim();
+      if (!text) return;
+      appendMessage("you", text, true);
+      input.value = "";
+      // Later: send to backend via WebSocket / REST
+    }
+
+    function sendEmoji(type) {
+      const map = {
+        hi: "👋 Hi",
+        hug: "🤗 Sending a hug",
+        kiss: "💋 A little kiss",
+        bye: "👋🏽 Bye for now",
+        flirt: "😉 A little flirt"
+      };
+      appendMessage("you", map[type] || type, true);
+      // Later: send emoji event to backend
+    }
+
+    // Initial seed
+    renderRooms();
+    logSystem("Welcome to the public plaza. This is a local simulation.");
+    appendMessage("Nova", "Skating past your orbit.", false);
+    appendMessage("Drift", "Hanging near the fountain.", false);
+
+    // HTML Reader wiring (chat)
+    document.getElementById("htmlFile-chat").addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("htmlPreview-chat").srcdoc = e.target.result;
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
