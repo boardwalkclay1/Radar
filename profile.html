@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blip Radar – Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101633, #050814 60%);
+      color: #f4f6ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(5, 8, 20, 0.9);
+      border-bottom: 1px solid rgba(92, 132, 255, 0.4);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header h1 {
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    header nav a {
+      color: #b8c4ff;
+      margin-left: 16px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    header nav a:hover {
+      color: #ffffff;
+    }
+    main {
+      flex: 1;
+      padding: 20px 16px 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.6fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .panel {
+      background: rgba(8, 12, 32, 0.95);
+      border-radius: 16px;
+      border: 1px solid rgba(92, 132, 255, 0.55);
+      padding: 16px 14px 12px;
+    }
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: #d8e1ff;
+    }
+    .field {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: #d0d7ff;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(124, 152, 255, 0.6);
+      background: rgba(9, 10, 26, 0.9);
+      color: #f7f7ff;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: #9bb2ff;
+      box-shadow: 0 0 0 1px rgba(155, 178, 255, 0.65);
+    }
+    .avatar-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid rgba(129, 168, 255, 0.9);
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1e274a, #050814);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+    .avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 13px;
+    }
+    .color-input {
+      width: 32px;
+      height: 20px;
+      border-radius: 6px;
+      border: 1px solid rgba(119, 152, 255, 0.7);
+      background: transparent;
+      padding: 0;
+    }
+    .save-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #4c6bff, #8d8bff);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .save-btn:hover {
+      filter: brightness(1.08);
+    }
+    .preview-card {
+      border-radius: 14px;
+      border: 1px solid rgba(120, 157, 255, 0.9);
+      padding: 10px 9px;
+      background: rgba(7, 11, 32, 0.96);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .blip-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      box-shadow: 0 0 12px rgba(140, 222, 255, 1);
+      border: 2px solid rgba(184, 235, 255, 0.9);
+    }
+    .preview-text {
+      font-size: 13px;
+      color: #dde5ff;
+    }
+    .preview-meta {
+      font-size: 11px;
+      color: #96a3ff;
+      margin-top: 2px;
+    }
+    .html-reader {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(92, 132, 255, 0.35);
+    }
+    .html-reader h3 {
+      font-size: 13px;
+      margin: 0 0 4px;
+      color: #d7deff;
+    }
+    .html-reader input[type="file"] {
+      font-size: 11px;
+      color: #c4c8ff;
+    }
+    .html-reader iframe {
+      width: 100%;
+      height: 140px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(107, 139, 255, 0.6);
+      background: #050712;
+      box-sizing: border-box;
+    }
+    footer {
+      font-size: 11px;
+      color: #7079aa;
+      text-align: center;
+      padding: 10px 12px 14px;
+      border-top: 1px solid rgba(38, 55, 120, 0.7);
+      background: rgba(5, 8, 20, 0.95);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BLIP RADAR</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="radar.html">Radar</a>
+      <a href="chat.html">Chat</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h3>Your profile</h3>
+
+      <div class="avatar-preview" id="avatar-preview">
+        <span id="avatar-initial">?</span>
+      </div>
+
+      <div class="field">
+        <label for="avatar-input">Avatar photo</label>
+        <input type="file" id="avatar-input" accept="image/*" />
+      </div>
+
+      <div class="field">
+        <label for="username">Handle</label>
+        <input id="username" type="text" placeholder="your-handle" />
+      </div>
+
+      <div class="field">
+        <label for="bio">Short bio</label>
+        <textarea id="bio" placeholder="Who are you on the radar?"></textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveProfile()">Save profile (local)</button>
+    </section>
+
+    <section class="panel">
+      <h3>Blip presence</h3>
+
+      <div class="preview-card">
+        <div class="blip-dot" id="blip-dot"></div>
+        <div>
+          <div class="preview-text" id="preview-text">
+            Your blip will show up like this on the field.
+          </div>
+          <div class="preview-meta" id="preview-meta">
+            Visibility: on • Color: #6cf0ff
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Blip color</label>
+        <input type="color" id="blip-color" class="color-input" value="#6cf0ff" />
+      </div>
+
+      <div class="toggle-row">
+        <input type="checkbox" id="visible" checked />
+        <span>Visible on radar</span>
+      </div>
+
+      <button class="save-btn" onclick="savePresence()">Save presence (local)</button>
+
+      <div class="html-reader">
+        <h3>HTML Reader</h3>
+        <input type="file" id="htmlFile-profile" accept=".html,.htm" />
+        <iframe id="htmlPreview-profile"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Profile data is local for now. Next: SQLite + backend to sync this across devices.
+  </footer>
+
+  <script>
+    const usernameInput = document.getElementById("username");
+    const bioInput = document.getElementById("bio");
+    const avatarInput = document.getElementById("avatar-input");
+    const avatarPreview = document.getElementById("avatar-preview");
+    const avatarInitial = document.getElementById("avatar-initial");
+    const blipDot = document.getElementById("blip-dot");
+    const blipColorInput = document.getElementById("blip-color");
+    const visibleInput = document.getElementById("visible");
+    const previewText = document.getElementById("preview-text");
+    const previewMeta = document.getElementById("preview-meta");
+
+    function updateAvatarInitial() {
+      const u = usernameInput.value.trim();
+      avatarInitial.textContent = u ? u[0].toUpperCase() : "?";
+    }
+
+    usernameInput.addEventListener("input", updateAvatarInitial);
+
+    avatarInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        avatarPreview.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        avatarPreview.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    blipColorInput.addEventListener("input", function () {
+      blipDot.style.background = this.value;
+      previewMeta.textContent = `Visibility: ${visibleInput.checked ? "on" : "off"} • Color: ${this.value}`;
+    });
+
+    visibleInput.addEventListener("change", function () {
+      previewMeta.textContent = `Visibility: ${this.checked ? "on" : "off"} • Color: ${blipColorInput.value}`;
+      blipDot.style.opacity = this.checked ? "1" : "0.35";
+    });
+
+    function saveProfile() {
+      const profile = {
+        username: usernameInput.value.trim(),
+        bio: bioInput.value.trim()
+      };
+      localStorage.setItem("blipProfile", JSON.stringify(profile));
+      previewText.textContent = profile.username
+        ? `${profile.username} • ${profile.bio || "No bio yet"}`
+        : "Your blip will show up like this on the field.";
+      alert("Profile saved locally. Backend wiring comes next.");
+    }
+
+    function savePresence() {
+      const presence = {
+        blipColor: blipColorInput.value,
+        visible: visibleInput.checked
+      };
+      localStorage.setItem("blipPresence", JSON.stringify(presence));
+      alert("Presence preferences saved locally. Later: sync to SQLite + server.");
+    }
+
+    // Load from localStorage if available
+    (function initFromStorage() {
+      try {
+        const profile = JSON.parse(localStorage.getItem("blipProfile") || "null");
+        if (profile) {
+          usernameInput.value = profile.username || "";
+          bioInput.value = profile.bio || "";
+          updateAvatarInitial();
+          previewText.textContent = profile.username
+            ? `${profile.username} • ${profile.bio || "No bio yet"}`
+            : previewText.textContent;
+        }
+        const presence = JSON.parse(localStorage.getItem("blipPresence") || "null");
+        if (presence) {
+          blipColorInput.value = presence.blipColor || "#6cf0ff";
+          visibleInput.checked = presence.visible !== false;
+          blipDot.style.background = blipColorInput.value;
+          blipDot.style.opacity = visibleInput.checked ? "1" : "0.35";
+          previewMeta.textContent = `Visibility: ${visibleInput.checked ? "on" : "off"} • Color: ${blipColorInput.value}`;
+        } else {
+          blipDot.style.background = "#6cf0ff";
+        }
+      } catch (e) {}
+    })();
+
+    // HTML Reader wiring (profile)
+    document.getElementById("htmlFile-profile").addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("htmlPreview-profile").srcdoc = e.target.result;
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
